@@ -4,6 +4,7 @@ import { Wallet } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { DashboardNav } from "@/components/dashboard/dashboard-nav";
 import { UserMenu } from "@/components/dashboard/user-menu";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default async function DashboardLayout({
   children,
@@ -25,10 +26,13 @@ export default async function DashboardLayout({
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
           <Link href="/dashboard" className="flex items-center gap-2 font-semibold">
             <Wallet className="size-5 text-primary" />
-            Finanças
+            Controle Financeiro
           </Link>
           <DashboardNav className="order-3 w-full justify-center sm:order-none sm:w-auto sm:justify-start" />
-          <UserMenu email={user.email ?? ""} />
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <UserMenu email={user.email ?? ""} />
+          </div>
         </div>
       </header>
       <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6">

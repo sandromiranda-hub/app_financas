@@ -53,37 +53,48 @@ export type MonthlySummary = {
   totalReceitas: number;
   totalDespesas: number;
   saldo: number;
-  porCategoria: { category: TransactionCategory; total: number }[];
+  despesasPorCategoria: { category: TransactionCategory; total: number }[];
+  receitasPorCategoria: { category: TransactionCategory; total: number }[];
 };
+
+function groupByCategory(
+  transactions: Transaction[]
+): { category: TransactionCategory; total: number }[] {
+  const map = new Map<TransactionCategory, number>();
+
+  for (const t of transactions) {
+    map.set(t.category, (map.get(t.category) ?? 0) + Number(t.amount));
+  }
+
+  return Array.from(map.entries())
+    .map(([category, total]) => ({ category, total }))
+    .sort((a, b) => b.total - a.total);
+}
 
 export function summarizeTransactions(
   transactions: Transaction[]
 ): MonthlySummary {
   let totalReceitas = 0;
   let totalDespesas = 0;
-  const porCategoriaMap = new Map<TransactionCategory, number>();
+  const receitas: Transaction[] = [];
+  const despesas: Transaction[] = [];
 
   for (const t of transactions) {
     if (t.type === "receita") {
       totalReceitas += Number(t.amount);
+      receitas.push(t);
     } else {
       totalDespesas += Number(t.amount);
-      porCategoriaMap.set(
-        t.category,
-        (porCategoriaMap.get(t.category) ?? 0) + Number(t.amount)
-      );
+      despesas.push(t);
     }
   }
-
-  const porCategoria = Array.from(porCategoriaMap.entries())
-    .map(([category, total]) => ({ category, total }))
-    .sort((a, b) => b.total - a.total);
 
   return {
     totalReceitas,
     totalDespesas,
     saldo: totalReceitas - totalDespesas,
-    porCategoria,
+    despesasPorCategoria: groupByCategory(despesas),
+    receitasPorCategoria: groupByCategory(receitas),
   };
 }
 

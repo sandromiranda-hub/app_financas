@@ -26,6 +26,12 @@ export async function login(
   });
 
   if (error) {
+    if (error.message.toLowerCase().includes("email not confirmed")) {
+      return {
+        error:
+          "Confirme seu e-mail antes de entrar. Enviamos um link de confirmação para sua caixa de entrada.",
+      };
+    }
     return { error: "E-mail ou senha inválidos." };
   }
 
@@ -65,7 +71,7 @@ export async function signup(
     return { error: "Não foi possível criar sua conta. Tente novamente." };
   }
 
-  redirect("/login?cadastrado=1");
+  redirect(`/confirme-email?email=${encodeURIComponent(email)}`);
 }
 
 export async function logout() {

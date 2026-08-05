@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -33,10 +34,12 @@ export function UserMenu({ email }: { email: string }) {
         }
       />
       <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuLabel className="flex items-center gap-2 font-normal">
-          <UserIcon className="size-4" />
-          <span className="truncate">{email}</span>
-        </DropdownMenuLabel>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel className="flex items-center gap-2 font-normal">
+            <UserIcon className="size-4" />
+            <span className="truncate">{email}</span>
+          </DropdownMenuLabel>
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem variant="destructive" onClick={() => logout()}>
           <LogOut className="size-4" />

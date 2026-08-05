@@ -6,7 +6,7 @@ import { Wallet } from "lucide-react";
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ redirectTo?: string; cadastrado?: string }>;
+  searchParams: Promise<{ redirectTo?: string }>;
 }) {
   const params = await searchParams;
 
@@ -18,20 +18,17 @@ export default async function LoginPage({
           className="mb-6 flex items-center justify-center gap-2 text-lg font-semibold"
         >
           <Wallet className="size-5 text-primary" />
-          Finanças
+          Controle Financeiro
         </Link>
         <Card>
           <CardHeader>
             <CardTitle>Entrar na sua conta</CardTitle>
             <CardDescription>
-              Acesse seu painel financeiro pessoal.
+              Acesse seu painel financeiro.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <LoginForm
-              redirectTo={params.redirectTo ?? "/dashboard"}
-              justRegistered={params.cadastrado === "1"}
-            />
+            <LoginForm redirectTo={params.redirectTo ?? "/dashboard"} />
           </CardContent>
         </Card>
       </div>

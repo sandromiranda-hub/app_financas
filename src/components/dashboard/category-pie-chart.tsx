@@ -26,11 +26,17 @@ function CustomTooltip({
   );
 }
 
-export function CategoryPieChart({ data }: { data: Slice[] }) {
+export function CategoryPieChart({
+  data,
+  emptyMessage = "Nenhuma transação registrada neste período.",
+}: {
+  data: Slice[];
+  emptyMessage?: string;
+}) {
   if (data.length === 0) {
     return (
       <div className="flex h-64 items-center justify-center text-sm text-muted-foreground">
-        Nenhuma despesa registrada neste período.
+        {emptyMessage}
       </div>
     );
   }

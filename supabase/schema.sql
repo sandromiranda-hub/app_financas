@@ -73,3 +73,10 @@ create policy "Usuários podem atualizar suas próprias transações"
 create policy "Usuários podem excluir suas próprias transações"
   on public.transactions for delete
   using (auth.uid() = user_id);
+
+-- 4. Privilégios de tabela ----------------------------------------------------
+-- O RLS acima só é avaliado depois que a role passa pela checagem de GRANT.
+-- Sem isso, qualquer acesso à tabela falha com "permission denied".
+
+grant usage on schema public to authenticated;
+grant select, insert, update, delete on public.transactions to authenticated;

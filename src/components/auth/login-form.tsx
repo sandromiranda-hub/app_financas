@@ -7,24 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-export function LoginForm({
-  redirectTo,
-  justRegistered,
-}: {
-  redirectTo: string;
-  justRegistered: boolean;
-}) {
+export function LoginForm({ redirectTo }: { redirectTo: string }) {
   const [state, action, pending] = useActionState(login, undefined);
 
   return (
     <form action={action} className="grid gap-4">
       <input type="hidden" name="redirectTo" value={redirectTo} />
-
-      {justRegistered && !state?.error && (
-        <p className="rounded-md bg-emerald-50 px-3 py-2 text-sm text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400">
-          Conta criada com sucesso. Faça login para continuar.
-        </p>
-      )}
 
       <div className="grid gap-2">
         <Label htmlFor="email">E-mail</Label>

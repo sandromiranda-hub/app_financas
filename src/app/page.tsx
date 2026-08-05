@@ -1,5 +1,7 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { cn } from "@/lib/utils";
 import {
   Card,
   CardContent,
@@ -65,12 +67,13 @@ export default function LandingPage() {
             Finanças
           </div>
           <nav className="flex items-center gap-2">
-            <Button variant="ghost" render={<Link href="/login" />}>
+            <ThemeToggle />
+            <Link href="/login" className={cn(buttonVariants({ variant: "ghost" }))}>
               Entrar
-            </Button>
-            <Button render={<Link href="/cadastro" />}>
+            </Link>
+            <Link href="/cadastro" className={cn(buttonVariants())}>
               Criar conta grátis
-            </Button>
+            </Link>
           </nav>
         </div>
       </header>
@@ -85,12 +88,15 @@ export default function LandingPage() {
             para onde vai seu dinheiro — tudo em um só lugar.
           </p>
           <div className="mt-8 flex items-center justify-center gap-3">
-            <Button size="lg" render={<Link href="/cadastro" />}>
+            <Link href="/cadastro" className={cn(buttonVariants({ size: "lg" }))}>
               Começar agora
-            </Button>
-            <Button size="lg" variant="outline" render={<Link href="/login" />}>
+            </Link>
+            <Link
+              href="/login"
+              className={cn(buttonVariants({ size: "lg", variant: "outline" }))}
+            >
               Já tenho conta
-            </Button>
+            </Link>
           </div>
         </section>
 
@@ -130,9 +136,9 @@ export default function LandingPage() {
             Crie sua conta gratuitamente e comece agora mesmo.
           </p>
           <div className="mt-6">
-            <Button size="lg" render={<Link href="/cadastro" />}>
+            <Link href="/cadastro" className={cn(buttonVariants({ size: "lg" }))}>
               Criar conta grátis
-            </Button>
+            </Link>
           </div>
         </section>
       </main>

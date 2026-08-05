@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { SummaryCards } from "@/components/dashboard/summary-cards";
 import { PeriodSelector } from "@/components/dashboard/period-selector";
 import { CategoryPieChart } from "@/components/dashboard/category-pie-chart";
@@ -40,63 +41,76 @@ export default async function DashboardPage({
         saldo={summary.saldo}
       />
 
-      <div className="grid gap-6 lg:grid-cols-5">
-        <Card className="lg:col-span-3">
+      <div className="grid gap-6 lg:grid-cols-2">
+        <Card>
           <CardHeader>
             <CardTitle>Despesas por categoria</CardTitle>
           </CardHeader>
           <CardContent>
-            <CategoryPieChart data={summary.porCategoria} />
+            <CategoryPieChart
+              data={summary.despesasPorCategoria}
+              emptyMessage="Nenhuma despesa registrada neste período."
+            />
           </CardContent>
         </Card>
 
-        <Card className="lg:col-span-2">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>Últimas transações</CardTitle>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="gap-1"
-              render={<Link href="/dashboard/transacoes" />}
-            >
-              Ver todas <ArrowRight className="size-3.5" />
-            </Button>
+        <Card>
+          <CardHeader>
+            <CardTitle>Receitas por categoria</CardTitle>
           </CardHeader>
           <CardContent>
-            {recent.length === 0 ? (
-              <p className="py-8 text-center text-sm text-muted-foreground">
-                Nenhuma transação neste período.
-              </p>
-            ) : (
-              <ul className="divide-y">
-                {recent.map((t) => (
-                  <li
-                    key={t.id}
-                    className="flex items-center justify-between gap-2 py-3 text-sm"
-                  >
-                    <div className="min-w-0">
-                      <p className="truncate font-medium">{t.description}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {t.category} · {formatDate(t.transaction_date)}
-                      </p>
-                    </div>
-                    <span
-                      className={
-                        t.type === "receita"
-                          ? "shrink-0 font-medium text-emerald-600 dark:text-emerald-400"
-                          : "shrink-0 font-medium text-rose-600 dark:text-rose-400"
-                      }
-                    >
-                      {t.type === "receita" ? "+" : "-"}
-                      {formatCurrency(Number(t.amount))}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            )}
+            <CategoryPieChart
+              data={summary.receitasPorCategoria}
+              emptyMessage="Nenhuma receita registrada neste período."
+            />
           </CardContent>
         </Card>
       </div>
+
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle>Últimas transações</CardTitle>
+          <Link
+            href="/dashboard/transacoes"
+            className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "gap-1")}
+          >
+            Ver todas <ArrowRight className="size-3.5" />
+          </Link>
+        </CardHeader>
+        <CardContent>
+          {recent.length === 0 ? (
+            <p className="py-8 text-center text-sm text-muted-foreground">
+              Nenhuma transação neste período.
+            </p>
+          ) : (
+            <ul className="divide-y">
+              {recent.map((t) => (
+                <li
+                  key={t.id}
+                  className="flex items-center justify-between gap-2 py-3 text-sm"
+                >
+                  <div className="min-w-0">
+                    <p className="truncate font-medium">{t.description}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {t.category} · {formatDate(t.transaction_date)}
+                    </p>
+                  </div>
+                  <span
+                    className={
+                      t.type === "receita"
+                        ? "shrink-0 font-medium text-emerald-600 dark:text-emerald-400"
+                        : "shrink-0 font-medium text-rose-600 dark:text-rose-400"
+                    }
+                  >
+                    {t.type === "receita" ? "+" : "-"}
+                    {formatCurrency(Number(t.amount))}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }
