@@ -19,7 +19,7 @@ export default async function ConfirmeEmailPage({
           className="mb-6 flex items-center justify-center gap-2 text-lg font-semibold"
         >
           <Wallet className="size-5 text-primary" />
-          Finanças
+          Controle Financeiro
         </Link>
         <Card>
           <CardHeader className="items-center text-center">
