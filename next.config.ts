@@ -11,6 +11,11 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Evita sobrepor o indicador de dev do Next.js com a trilha lateral da
+  // landing page (que ocupa o canto inferior esquerdo). Não afeta produção.
+  devIndicators: {
+    position: "bottom-right",
+  },
   async headers() {
     return [
       {

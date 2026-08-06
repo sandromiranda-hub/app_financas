@@ -1,31 +1,21 @@
-import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { SignupForm } from "@/components/auth/signup-form";
-import { Wallet } from "lucide-react";
+import { AuthShell } from "@/components/auth/auth-shell";
 
 export default function CadastroPage() {
   return (
-    <div className="flex min-h-svh items-center justify-center bg-muted/30 p-4">
-      <div className="w-full max-w-sm">
-        <Link
-          href="/"
-          className="mb-6 flex items-center justify-center gap-2 text-lg font-semibold"
-        >
-          <Wallet className="size-5 text-primary" />
-          Controle Financeiro
-        </Link>
-        <Card>
-          <CardHeader>
-            <CardTitle>Criar sua conta</CardTitle>
-            <CardDescription>
-              Comece a organizar suas finanças em minutos.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <SignupForm />
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+    <AuthShell>
+      <Card className="rounded-2xl border-none shadow-[0_20px_50px_-20px_rgba(15,28,62,0.25)]">
+        <CardHeader>
+          <CardTitle className="text-xl font-semibold" style={{ color: "#0F1C3E" }}>
+            Criar sua conta
+          </CardTitle>
+          <CardDescription>Comece a organizar suas finanças em minutos.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <SignupForm />
+        </CardContent>
+      </Card>
+    </AuthShell>
   );
 }

@@ -52,7 +52,11 @@ export function SignupForm() {
         <p className="text-sm text-destructive">{state.error}</p>
       )}
 
-      <Button type="submit" disabled={pending} className="w-full">
+      <Button
+        type="submit"
+        disabled={pending}
+        className="w-full rounded-full bg-[#FFB715] font-semibold text-[#0F1C3E] hover:bg-[#ffc340]"
+      >
         {pending ? "Criando conta..." : "Criar conta"}
       </Button>
 

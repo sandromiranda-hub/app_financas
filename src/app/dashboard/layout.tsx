@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { DashboardNav } from "@/components/dashboard/dashboard-nav";
 import { UserMenu } from "@/components/dashboard/user-menu";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { BrandMark } from "@/components/brand-mark";
 
 // Identidade visual da Ikigai Booking (guia de marca), aplicada só dentro do app logado.
 // Sobrescreve apenas os tokens de marca (primária, foco, gráficos) — não mexe em
@@ -52,14 +53,7 @@ export default async function DashboardLayout({
       <header className="sticky top-0 z-10 border-b bg-background">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
           <Link href="/dashboard" className="flex items-center gap-2.5">
-            <span
-              className="flex size-7 shrink-0 items-center justify-center rounded-full"
-              style={{ background: "#367BEC" }}
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round">
-                <path d="M5 17V13M12 17V9M19 17V6" />
-              </svg>
-            </span>
+            <BrandMark size={28} />
             <span className="leading-tight">
               <span className="block text-xs text-foreground">Controle</span>
               <span className="block text-sm font-bold text-primary">Financeiro</span>
