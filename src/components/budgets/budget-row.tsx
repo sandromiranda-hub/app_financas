@@ -54,7 +54,7 @@ export function BudgetRow({
         {limit !== null && (
           <>
             <p className="mt-1 text-sm text-muted-foreground">
-              {formatCurrency(spent)} de {formatCurrency(limit)}
+              {formatCurrency(spent)} / {formatCurrency(limit)}
             </p>
             <div className="mt-2 max-w-xs">
               <BudgetProgressBar percentage={percentage} />
