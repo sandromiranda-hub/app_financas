@@ -41,10 +41,17 @@ export async function upsertBudget(
 
 export async function deleteBudget(category: TransactionCategory) {
   const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) throw new Error("Sessão expirada. Faça login novamente.");
+
   const { error } = await supabase
     .from("budgets")
     .delete()
-    .eq("category", category);
+    .eq("category", category)
+    .eq("user_id", user.id);
 
   if (error) throw new Error(`Não foi possível remover: ${error.message}`);
 
