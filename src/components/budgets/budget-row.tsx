@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useTransition, type FormEvent } from "react";
+import { useActionState, useEffect, useTransition, type FormEvent } from "react";
 import { toast } from "sonner";
 import { X } from "lucide-react";
 import { upsertBudget, deleteBudget } from "@/lib/actions/budgets";
@@ -24,6 +24,12 @@ export function BudgetRow({
 }) {
   const [state, formAction, pending] = useActionState(upsertBudget, undefined);
   const [deleting, startDeleteTransition] = useTransition();
+
+  useEffect(() => {
+    if (state?.success) {
+      toast.success("Orçamento salvo.");
+    }
+  }, [state]);
 
   function handleDelete() {
     startDeleteTransition(async () => {
