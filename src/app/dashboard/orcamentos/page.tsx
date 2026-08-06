@@ -34,7 +34,7 @@ export default async function OrcamentosPage({
           const item = progressByCategory.get(category);
           return (
             <BudgetRow
-              key={category}
+              key={`${category}-${item?.limit ?? "none"}`}
               category={category}
               limit={item?.limit ?? null}
               spent={item?.spent ?? 0}
