@@ -74,9 +74,8 @@ export function BudgetRow({
         <Input
           id={limitInputId}
           name="limit_amount"
-          type="number"
-          step="0.01"
-          min="0.01"
+          type="text"
+          inputMode="decimal"
           placeholder="0,00"
           defaultValue={limit ?? ""}
           className="w-28"
