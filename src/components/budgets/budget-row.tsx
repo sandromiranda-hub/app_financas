@@ -1,11 +1,12 @@
 "use client";
 
-import { useActionState, useTransition } from "react";
+import { useActionState, useTransition, type FormEvent } from "react";
 import { toast } from "sonner";
 import { X } from "lucide-react";
 import { upsertBudget, deleteBudget } from "@/lib/actions/budgets";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { BudgetProgressBar } from "@/components/dashboard/budget-progress-bar";
 import { formatCurrency } from "@/lib/format";
 import type { TransactionCategory } from "@/lib/supabase/types";
@@ -35,6 +36,17 @@ export function BudgetRow({
     });
   }
 
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    const formData = new FormData(e.currentTarget);
+    const value = String(formData.get("limit_amount") ?? "").trim();
+    if (!value) {
+      e.preventDefault();
+      handleDelete();
+    }
+  }
+
+  const limitInputId = `limit-${category}`;
+
   return (
     <div className="grid gap-2 border-b py-4 last:border-0 sm:grid-cols-[1fr_auto] sm:items-center sm:gap-4">
       <div>
@@ -54,9 +66,13 @@ export function BudgetRow({
         )}
       </div>
 
-      <form action={formAction} className="flex items-center gap-2">
+      <form action={formAction} onSubmit={handleSubmit} className="flex items-center gap-2">
         <input type="hidden" name="category" value={category} />
+        <Label htmlFor={limitInputId} className="sr-only">
+          Limite de {category}
+        </Label>
         <Input
+          id={limitInputId}
           name="limit_amount"
           type="number"
           step="0.01"
