@@ -24,7 +24,7 @@ export default async function DashboardPage({
   const transactions = await getTransactions({ month, year });
   const summary = summarizeTransactions(transactions);
   const recent = transactions.slice(0, 5);
-  const budgetProgress = await getBudgetProgress(month, year);
+  const budgetProgress = await getBudgetProgress(month, year, transactions);
 
   return (
     <div className="grid gap-6">

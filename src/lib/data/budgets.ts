@@ -1,7 +1,7 @@
 import "server-only";
 import { createClient } from "@/lib/supabase/server";
 import { getTransactions } from "@/lib/data/transactions";
-import type { Budget, TransactionCategory } from "@/lib/supabase/types";
+import type { Budget, Transaction, TransactionCategory } from "@/lib/supabase/types";
 
 export type BudgetProgress = {
   category: TransactionCategory;
@@ -26,15 +26,16 @@ export async function getBudgets(): Promise<Budget[]> {
 
 export async function getBudgetProgress(
   month: number,
-  year: number
+  year: number,
+  transactions?: Transaction[]
 ): Promise<BudgetProgress[]> {
-  const [budgets, transactions] = await Promise.all([
+  const [budgets, txns] = await Promise.all([
     getBudgets(),
-    getTransactions({ month, year }),
+    transactions ? Promise.resolve(transactions) : getTransactions({ month, year }),
   ]);
 
   const spentByCategory = new Map<TransactionCategory, number>();
-  for (const t of transactions) {
+  for (const t of txns) {
     if (t.type !== "despesa") continue;
     spentByCategory.set(
       t.category,
