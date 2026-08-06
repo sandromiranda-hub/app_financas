@@ -39,6 +39,15 @@ export type Transaction = {
   updated_at: string;
 };
 
+export type Budget = {
+  id: string;
+  user_id: string;
+  category: TransactionCategory;
+  limit_amount: number;
+  created_at: string;
+  updated_at: string;
+};
+
 export type Database = {
   public: {
     Tables: {
@@ -50,6 +59,17 @@ export type Database = {
         };
         Update: Partial<
           Omit<Transaction, "id" | "user_id" | "created_at" | "updated_at">
+        >;
+        Relationships: [];
+      };
+      budgets: {
+        Row: Budget;
+        Insert: Omit<Budget, "id" | "user_id" | "created_at" | "updated_at"> & {
+          id?: string;
+          user_id?: string;
+        };
+        Update: Partial<
+          Omit<Budget, "id" | "user_id" | "created_at" | "updated_at">
         >;
         Relationships: [];
       };
