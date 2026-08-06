@@ -1,8 +1,8 @@
-# Finanças — Controle Financeiro Pessoal
+# Controle Financeiro
 
 App web para controle de finanças pessoais: registre receitas e despesas,
-acompanhe um dashboard com resumo mensal e gráfico por categoria, filtre e
-exporte suas transações em CSV.
+acompanhe um dashboard com resumo mensal e gráfico por categoria, defina
+orçamentos por categoria, filtre e exporte suas transações em CSV.
 
 ## Stack
 
@@ -18,9 +18,15 @@ exporte suas transações em CSV.
 2. No painel do projeto, vá em **SQL Editor**, cole o conteúdo de
    [`supabase/schema.sql`](supabase/schema.sql) e execute. Isso cria:
    - a tabela `transactions` com as categorias e tipos (receita/despesa);
+   - a tabela `budgets`, com o limite mensal recorrente por categoria;
    - índices de consulta;
-   - as políticas de **Row Level Security** que garantem que cada usuário só
-     veja e edite as próprias transações.
+   - as políticas de **Row Level Security** (e as permissões `GRANT`
+     correspondentes) que garantem que cada usuário só veja e edite os
+     próprios dados.
+
+   Alterações posteriores ao schema ficam registradas em
+   [`supabase/migrations/`](supabase/migrations/), para aplicar em um banco
+   já existente sem rodar o `schema.sql` inteiro de novo.
 3. Em **Project Settings → API**, copie a **Project URL** e a **anon public key**.
 4. Copie `.env.local.example` para `.env.local` e preencha:
 
@@ -47,15 +53,18 @@ Abra [http://localhost:3000](http://localhost:3000). Crie uma conta em
 
 ```
 proxy.ts                        # renova sessão e protege rotas /dashboard/*
-supabase/schema.sql              # schema do banco + RLS
+supabase/schema.sql              # schema completo do banco + RLS
+supabase/migrations/              # alterações incrementais ao schema
 src/lib/supabase/                # clients Supabase (browser/server) + tipos
 src/lib/data/transactions.ts     # consultas de transações e resumo mensal
-src/lib/actions/                 # Server Actions (auth, CRUD de transações)
+src/lib/data/budgets.ts          # consultas de orçamento e progresso por categoria
+src/lib/actions/                 # Server Actions (auth, transações, orçamentos)
 src/app/(landing) page.tsx       # landing page pública
 src/app/login, /cadastro         # autenticação
-src/app/dashboard                # área autenticada (visão geral + transações)
-src/components/dashboard         # cards, gráfico de pizza, seletor de período
+src/app/dashboard                # área autenticada (visão geral, transações, orçamentos)
+src/components/dashboard         # cards, gráficos, seletor de período
 src/components/transactions      # formulário, tabela, filtros, exportar CSV
+src/components/budgets           # linha de orçamento por categoria
 ```
 
 ## Deploy na Vercel
