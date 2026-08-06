@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Poppins } from "next/font/google";
 import {
   PieChart,
   SlidersHorizontal,
@@ -13,15 +12,6 @@ import {
 } from "lucide-react";
 import { BrandRail } from "@/components/landing/brand-rail";
 import { BrandMark } from "@/components/brand-mark";
-
-// Identidade visual da Ikigai Booking (guia de marca), aprovada para landing,
-// login e área logada. Tokens sobrescritos só nesta página.
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-poppins",
-  display: "swap",
-});
 
 const FEATURES = [
   {
@@ -103,11 +93,7 @@ function YellowButton({
 
 export default function LandingPage() {
   return (
-    <div
-      id="top"
-      className={`${poppins.variable} md:pl-16`}
-      style={{ fontFamily: "var(--font-poppins)" }}
-    >
+    <div id="top" className="md:pl-16">
       <BrandRail />
 
       <header className="border-b border-[#EEF0F5]">

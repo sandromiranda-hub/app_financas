@@ -1,30 +1,13 @@
 import Link from "next/link";
-import { Poppins } from "next/font/google";
 import { BrandMark } from "@/components/brand-mark";
-
-// Identidade visual da Ikigai Booking (guia de marca), aplicada às telas
-// de autenticação (login, cadastro, confirmação de e-mail). Tokens
-// sobrescritos só dentro deste wrapper.
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-poppins",
-  display: "swap",
-});
 
 export function AuthShell({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className={`${poppins.variable} relative flex min-h-svh items-center justify-center overflow-hidden p-4`}
+      className="relative flex min-h-svh items-center justify-center overflow-hidden p-4"
       style={{
         background: "#FAFAFA",
         color: "#0F1C3E",
-        fontFamily: "var(--font-poppins)",
-        ["--primary" as string]: "#367BEC",
-        ["--primary-foreground" as string]: "#FFFFFF",
-        ["--ring" as string]: "#367BEC",
-        ["--foreground" as string]: "#0F1C3E",
-        ["--font-heading" as string]: "var(--font-poppins)",
       }}
     >
       <svg
