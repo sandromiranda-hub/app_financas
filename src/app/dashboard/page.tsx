@@ -9,6 +9,7 @@ import { getTransactions, summarizeTransactions } from "@/lib/data/transactions"
 import { getBudgetProgress } from "@/lib/data/budgets";
 import { BudgetSummaryCard } from "@/components/dashboard/budget-summary-card";
 import { formatCurrency, formatDate, formatMonthYear } from "@/lib/format";
+import { parsePeriod } from "@/lib/period";
 import { ArrowRight } from "lucide-react";
 
 export default async function DashboardPage({
@@ -17,9 +18,7 @@ export default async function DashboardPage({
   searchParams: Promise<{ mes?: string; ano?: string }>;
 }) {
   const params = await searchParams;
-  const now = new Date();
-  const month = Number(params.mes) || now.getMonth() + 1;
-  const year = Number(params.ano) || now.getFullYear();
+  const { month, year } = parsePeriod(params.mes, params.ano);
 
   const transactions = await getTransactions({ month, year });
   const summary = summarizeTransactions(transactions);

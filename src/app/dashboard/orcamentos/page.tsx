@@ -3,6 +3,7 @@ import { getBudgetProgress } from "@/lib/data/budgets";
 import { PeriodSelector } from "@/components/dashboard/period-selector";
 import { BudgetRow } from "@/components/budgets/budget-row";
 import { formatMonthYear } from "@/lib/format";
+import { parsePeriod } from "@/lib/period";
 
 export default async function OrcamentosPage({
   searchParams,
@@ -10,9 +11,7 @@ export default async function OrcamentosPage({
   searchParams: Promise<{ mes?: string; ano?: string }>;
 }) {
   const params = await searchParams;
-  const now = new Date();
-  const month = Number(params.mes) || now.getMonth() + 1;
-  const year = Number(params.ano) || now.getFullYear();
+  const { month, year } = parsePeriod(params.mes, params.ano);
 
   const progress = await getBudgetProgress(month, year);
   const progressByCategory = new Map(progress.map((p) => [p.category, p]));

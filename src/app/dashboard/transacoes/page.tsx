@@ -5,6 +5,7 @@ import { ExportCsvButton } from "@/components/transactions/export-csv-button";
 import { getTransactions } from "@/lib/data/transactions";
 import { CATEGORIES, type TransactionCategory } from "@/lib/supabase/types";
 import { formatMonthYear } from "@/lib/format";
+import { parsePeriod } from "@/lib/period";
 
 export default async function TransacoesPage({
   searchParams,
@@ -17,9 +18,7 @@ export default async function TransacoesPage({
   }>;
 }) {
   const params = await searchParams;
-  const now = new Date();
-  const month = Number(params.mes) || now.getMonth() + 1;
-  const year = Number(params.ano) || now.getFullYear();
+  const { month, year } = parsePeriod(params.mes, params.ano);
   const category = CATEGORIES.includes(params.categoria as TransactionCategory)
     ? (params.categoria as TransactionCategory)
     : undefined;
