@@ -19,10 +19,10 @@ export function SummaryCards({
           <CardTitle className="text-sm font-medium text-muted-foreground">
             Receitas
           </CardTitle>
-          <ArrowUpCircle className="size-4 text-emerald-600 dark:text-emerald-400" />
+          <ArrowUpCircle className="size-4 text-primary" />
         </CardHeader>
         <CardContent>
-          <p className="text-2xl font-semibold text-emerald-600 dark:text-emerald-400">
+          <p className="text-2xl font-semibold text-primary">
             {formatCurrency(totalReceitas)}
           </p>
         </CardContent>
@@ -33,10 +33,10 @@ export function SummaryCards({
           <CardTitle className="text-sm font-medium text-muted-foreground">
             Despesas
           </CardTitle>
-          <ArrowDownCircle className="size-4 text-rose-600 dark:text-rose-400" />
+          <ArrowDownCircle className="size-4 text-[#FF7217]" />
         </CardHeader>
         <CardContent>
-          <p className="text-2xl font-semibold text-rose-600 dark:text-rose-400">
+          <p className="text-2xl font-semibold text-[#FF7217]">
             {formatCurrency(totalDespesas)}
           </p>
         </CardContent>
@@ -53,9 +53,7 @@ export function SummaryCards({
           <p
             className={cn(
               "text-2xl font-semibold",
-              saldo >= 0
-                ? "text-foreground"
-                : "text-rose-600 dark:text-rose-400"
+              saldo >= 0 ? "text-foreground" : "text-[#FF7217]"
             )}
           >
             {formatCurrency(saldo)}

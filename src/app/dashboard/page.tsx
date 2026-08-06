@@ -98,8 +98,8 @@ export default async function DashboardPage({
                   <span
                     className={
                       t.type === "receita"
-                        ? "shrink-0 font-medium text-emerald-600 dark:text-emerald-400"
-                        : "shrink-0 font-medium text-rose-600 dark:text-rose-400"
+                        ? "shrink-0 font-medium text-primary"
+                        : "shrink-0 font-medium text-[#FF7217]"
                     }
                   >
                     {t.type === "receita" ? "+" : "-"}

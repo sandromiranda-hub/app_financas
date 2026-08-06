@@ -18,9 +18,7 @@ function AmountText({ transaction }: { transaction: Transaction }) {
     <span
       className={cn(
         "font-medium tabular-nums",
-        transaction.type === "receita"
-          ? "text-emerald-600 dark:text-emerald-400"
-          : "text-rose-600 dark:text-rose-400"
+        transaction.type === "receita" ? "text-primary" : "text-[#FF7217]"
       )}
     >
       {transaction.type === "receita" ? "+" : "-"}

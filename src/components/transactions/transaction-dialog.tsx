@@ -66,7 +66,11 @@ export function TransactionDialog({
           <span className="sr-only">Editar</span>
         </DialogTrigger>
       ) : (
-        <DialogTrigger render={<Button className="gap-2" />}>
+        <DialogTrigger
+          render={
+            <Button className="gap-2 rounded-full bg-[#FFB715] font-semibold text-[#0F1C3E] hover:bg-[#ffc340]" />
+          }
+        >
           <Plus className="size-4" />
           Nova transação
         </DialogTrigger>
@@ -156,7 +160,11 @@ export function TransactionDialog({
           {error && <p className="text-sm text-destructive">{error}</p>}
 
           <DialogFooter>
-            <Button type="submit" disabled={pending}>
+            <Button
+              type="submit"
+              disabled={pending}
+              className="rounded-full bg-[#FFB715] font-semibold text-[#0F1C3E] hover:bg-[#ffc340]"
+            >
               {pending ? "Salvando..." : "Salvar"}
             </Button>
           </DialogFooter>

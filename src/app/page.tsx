@@ -145,7 +145,7 @@ export default function LandingPage() {
 
       <footer className="border-t py-6">
         <div className="mx-auto max-w-6xl px-4 text-center text-sm text-muted-foreground">
-          Finanças Pessoais — projeto de estudo construído com Next.js e Supabase.
+          © 2026 Controle Financeiro. Todos os direitos reservados.
         </div>
       </footer>
     </div>
