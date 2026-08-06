@@ -153,7 +153,21 @@ Reaproveita a paleta da identidade Ikigai já aplicada no app:
 ## Testes
 
 O projeto não tem framework de testes automatizados configurado (`package.json` só define
-`dev`/`build`/`start`/`lint`). Validação será manual: `npm run build` + `npm run lint` antes
-de qualquer deploy (mesmo processo já usado nas mudanças anteriores), e teste manual do fluxo
-de definir/editar/remover limite e verificar o cálculo de progresso em pelo menos dois meses
-diferentes (um com transações, um vazio).
+`dev`/`build`/`start`/`lint`). Validação será manual, rodando o app localmente:
+
+1. `npm run build` + `npm run lint` antes de qualquer deploy (mesmo processo já usado nas
+   mudanças anteriores).
+2. Fluxo de CRUD do limite, em `/dashboard/orcamentos`:
+   - Definir um limite numa categoria sem orçamento e confirmar que salva.
+   - Editar um limite existente para outro valor e confirmar que atualiza.
+   - Limpar o campo e salvar, confirmar que o limite é removido (`deleteBudget`) e a
+     categoria volta ao estado "sem orçamento definido".
+3. Cálculo de progresso, testado em dois cenários (o limite é fixo, mas o "gasto" depende do
+   mês selecionado — por isso os dois casos abaixo, não só um):
+   - **Mês com transações**: selecionar um mês que já tem despesas lançadas na categoria com
+     limite definido e conferir se `spent`/`percentage` batem com a soma real das transações
+     (ex: R$ 300 gastos contra limite de R$ 500 deve mostrar 60%, na cor azul).
+   - **Mês sem nenhuma transação**: selecionar um mês vazio (futuro, ou anterior ao início do
+     uso do app) e conferir que a UI mostra R$ 0 / limite = 0% **sem erro** — esse é o caso
+     que mais costuma quebrar em cálculos de agregação (divisão por zero, `undefined`, lista
+     vazia não tratada), por isso entra explicitamente no checklist de teste.
