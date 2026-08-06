@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { BudgetProgressBar } from "@/components/dashboard/budget-progress-bar";
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency, formatDecimalInput } from "@/lib/format";
 import type { TransactionCategory } from "@/lib/supabase/types";
 
 export function BudgetRow({
@@ -77,7 +77,7 @@ export function BudgetRow({
           type="text"
           inputMode="decimal"
           placeholder="0,00"
-          defaultValue={limit !== null ? limit.toFixed(2).replace(".", ",") : ""}
+          defaultValue={limit !== null ? formatDecimalInput(limit) : ""}
           className="w-28"
         />
         <Button type="submit" size="sm" disabled={pending}>

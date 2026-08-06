@@ -3,13 +3,13 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { CATEGORIES, type TransactionCategory } from "@/lib/supabase/types";
+import { parseDecimalInput } from "@/lib/format";
 
 export type TransactionFormState = { error?: string; success?: boolean } | undefined;
 
 function parseTransactionForm(formData: FormData) {
   const description = String(formData.get("description") ?? "").trim();
-  const amountRaw = String(formData.get("amount") ?? "").replace(",", ".");
-  const amount = Number.parseFloat(amountRaw);
+  const amount = parseDecimalInput(String(formData.get("amount") ?? ""));
   const type = String(formData.get("type") ?? "");
   const category = String(formData.get("category") ?? "") as TransactionCategory;
   const transaction_date = String(formData.get("transaction_date") ?? "");

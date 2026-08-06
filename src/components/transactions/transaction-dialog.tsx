@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select";
 import { CATEGORIES, type Transaction } from "@/lib/supabase/types";
 import { createTransaction, updateTransaction } from "@/lib/actions/transactions";
+import { formatDecimalInput } from "@/lib/format";
 
 function todayISO() {
   return new Date().toISOString().slice(0, 10);
@@ -108,7 +109,7 @@ export function TransactionDialog({
                 placeholder="0,00"
                 defaultValue={
                   transaction
-                    ? Number(transaction.amount).toFixed(2).replace(".", ",")
+                    ? formatDecimalInput(Number(transaction.amount))
                     : undefined
                 }
                 required

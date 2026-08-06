@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { CATEGORIES, type TransactionCategory } from "@/lib/supabase/types";
+import { parseDecimalInput } from "@/lib/format";
 
 export type BudgetFormState = { error?: string; success?: boolean } | undefined;
 
@@ -11,8 +12,7 @@ export async function upsertBudget(
   formData: FormData
 ): Promise<BudgetFormState> {
   const category = String(formData.get("category") ?? "") as TransactionCategory;
-  const limitRaw = String(formData.get("limit_amount") ?? "").replace(",", ".");
-  const limitAmount = Number.parseFloat(limitRaw);
+  const limitAmount = parseDecimalInput(String(formData.get("limit_amount") ?? ""));
 
   if (!CATEGORIES.includes(category)) return { error: "Categoria inválida." };
   if (!Number.isFinite(limitAmount) || limitAmount <= 0)
