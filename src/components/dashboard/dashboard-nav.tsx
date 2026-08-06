@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { LayoutDashboard, ArrowLeftRight } from "lucide-react";
+import { LayoutDashboard, ArrowLeftRight, Target } from "lucide-react";
 
 const LINKS = [
   { href: "/dashboard", label: "Visão geral", icon: LayoutDashboard },
   { href: "/dashboard/transacoes", label: "Transações", icon: ArrowLeftRight },
+  { href: "/dashboard/orcamentos", label: "Orçamentos", icon: Target },
 ];
 
 export function DashboardNav({ className }: { className?: string }) {
