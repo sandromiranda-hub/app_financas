@@ -104,19 +104,23 @@ create trigger budgets_set_updated_at
 
 alter table public.budgets enable row level security;
 
+drop policy if exists "Usuários podem ver seus próprios orçamentos" on public.budgets;
 create policy "Usuários podem ver seus próprios orçamentos"
   on public.budgets for select
   using (auth.uid() = user_id);
 
+drop policy if exists "Usuários podem inserir seus próprios orçamentos" on public.budgets;
 create policy "Usuários podem inserir seus próprios orçamentos"
   on public.budgets for insert
   with check (auth.uid() = user_id);
 
+drop policy if exists "Usuários podem atualizar seus próprios orçamentos" on public.budgets;
 create policy "Usuários podem atualizar seus próprios orçamentos"
   on public.budgets for update
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
 
+drop policy if exists "Usuários podem excluir seus próprios orçamentos" on public.budgets;
 create policy "Usuários podem excluir seus próprios orçamentos"
   on public.budgets for delete
   using (auth.uid() = user_id);
