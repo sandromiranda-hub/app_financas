@@ -13,10 +13,7 @@ export function formatDecimalInput(value: number): string {
 }
 
 export function parseDecimalInput(raw: string): number {
-  const trimmed = raw.trim();
-  const normalized = trimmed.includes(",")
-    ? trimmed.replace(/\./g, "").replace(",", ".")
-    : trimmed;
+  const normalized = raw.trim().replace(/\./g, "").replace(",", ".");
   return Number.parseFloat(normalized);
 }
 
