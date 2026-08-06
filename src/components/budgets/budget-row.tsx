@@ -77,7 +77,7 @@ export function BudgetRow({
           type="text"
           inputMode="decimal"
           placeholder="0,00"
-          defaultValue={limit ?? ""}
+          defaultValue={limit !== null ? limit.toFixed(2).replace(".", ",") : ""}
           className="w-28"
         />
         <Button type="submit" size="sm" disabled={pending}>

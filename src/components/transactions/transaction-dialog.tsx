@@ -106,7 +106,11 @@ export function TransactionDialog({
                 type="text"
                 inputMode="decimal"
                 placeholder="0,00"
-                defaultValue={transaction?.amount}
+                defaultValue={
+                  transaction
+                    ? Number(transaction.amount).toFixed(2).replace(".", ",")
+                    : undefined
+                }
                 required
               />
             </div>
