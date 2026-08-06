@@ -103,9 +103,8 @@ export function TransactionDialog({
               <Input
                 id="amount"
                 name="amount"
-                type="number"
-                step="0.01"
-                min="0.01"
+                type="text"
+                inputMode="decimal"
                 placeholder="0,00"
                 defaultValue={transaction?.amount}
                 required
