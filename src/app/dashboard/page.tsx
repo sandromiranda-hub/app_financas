@@ -6,6 +6,8 @@ import { SummaryCards } from "@/components/dashboard/summary-cards";
 import { PeriodSelector } from "@/components/dashboard/period-selector";
 import { CategoryPieChart } from "@/components/dashboard/category-pie-chart";
 import { getTransactions, summarizeTransactions } from "@/lib/data/transactions";
+import { getBudgetProgress } from "@/lib/data/budgets";
+import { BudgetSummaryCard } from "@/components/dashboard/budget-summary-card";
 import { formatCurrency, formatDate, formatMonthYear } from "@/lib/format";
 import { ArrowRight } from "lucide-react";
 
@@ -22,6 +24,7 @@ export default async function DashboardPage({
   const transactions = await getTransactions({ month, year });
   const summary = summarizeTransactions(transactions);
   const recent = transactions.slice(0, 5);
+  const budgetProgress = await getBudgetProgress(month, year);
 
   return (
     <div className="grid gap-6">
@@ -66,6 +69,8 @@ export default async function DashboardPage({
           </CardContent>
         </Card>
       </div>
+
+      <BudgetSummaryCard budgets={budgetProgress} />
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
