@@ -159,6 +159,7 @@ create policy "Usuários podem ver sua própria liberação de acesso"
   using (auth.uid() = user_id);
 
 grant select on public.user_access to authenticated;
+grant select, update on public.user_access to service_role;
 
 create or replace function public.grant_trial_access()
 returns trigger
@@ -197,3 +198,5 @@ select
 from public.user_access ua
 join auth.users au on au.id = ua.user_id
 order by ua.expires_at asc nulls last;
+
+grant select on public.user_access_overview to service_role;

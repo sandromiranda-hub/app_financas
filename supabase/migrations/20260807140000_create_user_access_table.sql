@@ -35,6 +35,11 @@ grant select on public.user_access to authenticated;
 -- roda como definer, ignorando RLS) e o Table Editor (role postgres)
 -- podem escrever nesta tabela.
 
+-- O painel de admin usa a service_role key (ignora RLS, mas ainda precisa
+-- da permissão básica de acesso ao objeto — sem isso dá "permission denied"
+-- mesmo com a chave certa).
+grant select, update on public.user_access to service_role;
+
 -- Concede 14 dias de teste automaticamente a cada novo usuário criado em
 -- auth.users — inclusive os criados manualmente por você no painel.
 create or replace function public.grant_trial_access()
@@ -81,3 +86,5 @@ select
 from public.user_access ua
 join auth.users au on au.id = ua.user_id
 order by ua.expires_at asc nulls last;
+
+grant select on public.user_access_overview to service_role;
