@@ -48,6 +48,15 @@ export type Budget = {
   updated_at: string;
 };
 
+export type UserAccess = {
+  id: string;
+  user_id: string;
+  expires_at: string | null;
+  note: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
 export type Database = {
   public: {
     Tables: {
@@ -71,6 +80,14 @@ export type Database = {
         Update: Partial<
           Omit<Budget, "id" | "user_id" | "created_at" | "updated_at">
         >;
+        Relationships: [];
+      };
+      user_access: {
+        Row: UserAccess;
+        Insert: Omit<UserAccess, "id" | "created_at" | "updated_at"> & {
+          id?: string;
+        };
+        Update: Partial<Omit<UserAccess, "id" | "user_id" | "created_at" | "updated_at">>;
         Relationships: [];
       };
     };

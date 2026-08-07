@@ -126,3 +126,74 @@ create policy "Usuários podem excluir seus próprios orçamentos"
   using (auth.uid() = user_id);
 
 grant select, insert, update, delete on public.budgets to authenticated;
+
+-- 6. Controle de acesso por usuário --------------------------------------------
+-- Cada usuário tem uma liberação com validade opcional (null = nunca expira,
+-- usado pra acesso gratuito permanente). Todo novo cadastro recebe
+-- automaticamente um teste de 14 dias via trigger; extensões, conversão pra
+-- pago ou acesso vitalício são feitas manualmente no Table Editor do
+-- Supabase (só o role postgres tem permissão de escrita nesta tabela).
+
+create table if not exists public.user_access (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null unique references auth.users (id) on delete cascade,
+  expires_at timestamptz,
+  note text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists user_access_expires_at_idx on public.user_access (expires_at);
+
+drop trigger if exists user_access_set_updated_at on public.user_access;
+create trigger user_access_set_updated_at
+  before update on public.user_access
+  for each row
+  execute function public.set_updated_at();
+
+alter table public.user_access enable row level security;
+
+drop policy if exists "Usuários podem ver sua própria liberação de acesso" on public.user_access;
+create policy "Usuários podem ver sua própria liberação de acesso"
+  on public.user_access for select
+  using (auth.uid() = user_id);
+
+grant select on public.user_access to authenticated;
+
+create or replace function public.grant_trial_access()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  insert into public.user_access (user_id, expires_at, note)
+  values (new.id, now() + interval '14 days', 'Teste automático (14 dias)');
+  return new;
+end;
+$$;
+
+drop trigger if exists on_auth_user_created_grant_trial on auth.users;
+create trigger on_auth_user_created_grant_trial
+  after insert on auth.users
+  for each row
+  execute function public.grant_trial_access();
+
+insert into public.user_access (user_id, expires_at, note)
+select id, null, 'Acesso migrado automaticamente (ajuste conforme necessário)'
+from auth.users
+on conflict (user_id) do nothing;
+
+create or replace view public.user_access_overview as
+select
+  ua.user_id,
+  au.email,
+  ua.expires_at,
+  ua.note,
+  case
+    when ua.expires_at is null then null
+    else extract(day from ua.expires_at - now())::int
+  end as dias_restantes
+from public.user_access ua
+join auth.users au on au.id = ua.user_id
+order by ua.expires_at asc nulls last;

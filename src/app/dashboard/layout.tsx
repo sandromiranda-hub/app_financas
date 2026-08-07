@@ -5,6 +5,7 @@ import { DashboardNav } from "@/components/dashboard/dashboard-nav";
 import { UserMenu } from "@/components/dashboard/user-menu";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { BrandMark } from "@/components/brand-mark";
+import { hasActiveAccess } from "@/lib/data/access";
 
 export default async function DashboardLayout({
   children,
@@ -18,6 +19,10 @@ export default async function DashboardLayout({
 
   if (!user) {
     redirect("/login");
+  }
+
+  if (!(await hasActiveAccess(user.id))) {
+    redirect("/sem-acesso");
   }
 
   return (
