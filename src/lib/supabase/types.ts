@@ -57,6 +57,14 @@ export type UserAccess = {
   updated_at: string;
 };
 
+export type UserAccessOverviewRow = {
+  user_id: string;
+  email: string | null;
+  expires_at: string | null;
+  note: string | null;
+  dias_restantes: number | null;
+};
+
 export type Database = {
   public: {
     Tables: {
@@ -91,7 +99,12 @@ export type Database = {
         Relationships: [];
       };
     };
-    Views: Record<string, never>;
+    Views: {
+      user_access_overview: {
+        Row: UserAccessOverviewRow;
+        Relationships: [];
+      };
+    };
     Functions: Record<string, never>;
   };
 };

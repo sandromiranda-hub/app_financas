@@ -6,6 +6,7 @@ import { UserMenu } from "@/components/dashboard/user-menu";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { BrandMark } from "@/components/brand-mark";
 import { hasActiveAccess } from "@/lib/data/access";
+import { isAdmin } from "@/lib/data/admin";
 
 export default async function DashboardLayout({
   children,
@@ -36,7 +37,10 @@ export default async function DashboardLayout({
               <span className="block text-sm font-bold text-primary">Financeiro</span>
             </span>
           </Link>
-          <DashboardNav className="order-3 w-full justify-center sm:order-none sm:w-auto sm:justify-start" />
+          <DashboardNav
+            className="order-3 w-full justify-center sm:order-none sm:w-auto sm:justify-start"
+            isAdmin={isAdmin(user.email)}
+          />
           <div className="flex items-center gap-2">
             <ThemeToggle />
             <UserMenu email={user.email ?? ""} />

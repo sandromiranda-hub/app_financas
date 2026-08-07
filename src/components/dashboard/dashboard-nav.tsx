@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { LayoutDashboard, ArrowLeftRight, Target } from "lucide-react";
+import { LayoutDashboard, ArrowLeftRight, Target, ShieldCheck } from "lucide-react";
 
 const LINKS = [
   { href: "/dashboard", label: "Visão geral", icon: LayoutDashboard },
@@ -11,12 +11,21 @@ const LINKS = [
   { href: "/dashboard/orcamentos", label: "Orçamentos", icon: Target },
 ];
 
-export function DashboardNav({ className }: { className?: string }) {
+export function DashboardNav({
+  className,
+  isAdmin = false,
+}: {
+  className?: string;
+  isAdmin?: boolean;
+}) {
   const pathname = usePathname();
+  const links = isAdmin
+    ? [...LINKS, { href: "/dashboard/admin", label: "Usuários", icon: ShieldCheck }]
+    : LINKS;
 
   return (
     <nav className={cn("flex items-center gap-1", className)}>
-      {LINKS.map(({ href, label, icon: Icon }) => {
+      {links.map(({ href, label, icon: Icon }) => {
         const active =
           href === "/dashboard" ? pathname === href : pathname.startsWith(href);
         return (
